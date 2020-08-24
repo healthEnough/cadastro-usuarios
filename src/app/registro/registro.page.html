@@ -15,42 +15,69 @@
       </ion-label>
     </ion-item-divider>
 
-  <ion-item lines="none">
-    <ion-label position="stacked">Nome</ion-label>
-    <ion-input type="email" placeholder="Digite seu nome"></ion-input>
-  </ion-item>
-  <ion-item lines="none">
-    <ion-label position="stacked">CPF</ion-label>
-    <ion-input type="email" placeholder="Digite seu CPF"></ion-input>
-  </ion-item>
-  <ion-item lines="none">
-    <ion-label position="stacked">Data de nascimento</ion-label>
-    <ion-input displayFormat="DD/MM/YYYY" placeholder="Selecione"cancelText="Cancelar" doneText="Ok"></ion-input>
-  </ion-item>
-  <ion-item lines="none">
-    <ion-label position="stacked">Sexo</ion-label>
-    <ion-select placeholder="Selecione" cancelText="Cancelar">
-      <ion-select-option value="F">Feminino</ion-select-option>
-      <ion-select-option value="O">Outro</ion-select-option>
-      <ion-select-option value="M">Masculino</ion-select-option>
-    </ion-select>
-  </ion-item>
-  <ion-item lines="none">
-    <ion-label position="stacked">Celular</ion-label>
-    <ion-input type="email" placeholder="Digite seu celular"></ion-input>
-  </ion-item>
-  <ion-item lines="none">
-    <ion-label position="stacked">Email</ion-label>
-    <ion-input type="email" placeholder="Digite seu email"></ion-input>
-  </ion-item>
-  <ion-item lines="none">
-    <ion-label position="stacked">Senha</ion-label>
-    <ion-input type="password" placeholder="Digite sua senha"></ion-input>
-  </ion-item>
-  <ion-item lines="none">
-    <ion-label position="stacked">Confirmar</ion-label>
-    <ion-input type="password" placeholder="Confirme sua senha"></ion-input>
-  </ion-item>
+    <form [formGroup]="formRegistro">
+      <ion-item lines="none">
+        <ion-label position="stacked">Nome</ion-label>
+        <ion-input formControlName="nome" type="email" placeholder="Digite seu nome"></ion-input>
+        <ng-container *ngFor="let erro of mensagens_validacao.nome">
+          <span class="msg-erro" *ngIf="formRegistro.get('nome').hasError(erro.tipo) && (formRegistro.get('nome').dirty || formRegistro.get('nome').touched)">{{ erro.mensagem }}</span>
+        </ng-container>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label position="stacked">CPF</ion-label>
+        <ion-input formControlName="cpf" type="email" placeholder="Digite seu CPF"></ion-input>
+        <ng-container *ngFor="let erro of mensagens_validacao.cpf">
+          <span class="msg-erro" *ngIf="formRegistro.get('cpf').hasError(erro.tipo) && (formRegistro.get('cpf').dirty || formRegistro.get('cpf').touched)">{{ erro.mensagem }}</span>
+        </ng-container>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label position="stacked">Data de nascimento</ion-label>
+        <ion-input formControlName="datadenascimento" displayFormat="DD/MM/YYYY" placeholder="Selecione"cancelText="Cancelar" doneText="Ok"></ion-input>
+        <ng-container *ngFor="let erro of mensagens_validacao.datadenascimento">
+          <span class="msg-erro" *ngIf="formRegistro.get('datadenascimento').hasError(erro.tipo) && (formRegistro.get('datadenascimento').dirty || formRegistro.get('datadenascimento').touched)">{{ erro.mensagem }}</span>
+        </ng-container>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label position="stacked">Sexo</ion-label>
+        <ion-select formControlName="sexo" placeholder="Selecione" cancelText="Cancelar">
+          <ion-select-option value="F">Feminino</ion-select-option>
+          <ion-select-option value="O">Outro</ion-select-option>
+          <ion-select-option value="M">Masculino</ion-select-option>
+        </ion-select>
+        <ng-container *ngFor="let erro of mensagens_validacao.sexo">
+          <span class="msg-erro" *ngIf="formRegistro.get('sexo').hasError(erro.tipo) && (formRegistro.get('sexo').dirty || formRegistro.get('sexo').touched)">{{ erro.mensagem }}</span>
+        </ng-container>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label position="stacked">Celular</ion-label>
+        <ion-input formControlName="celular" type="email" placeholder="Digite seu celular"></ion-input>
+        <ng-container *ngFor="let erro of mensagens_validacao.celular">
+          <span class="msg-erro" *ngIf="formRegistro.get('celular').hasError(erro.tipo) && (formRegistro.get('celular').dirty || formRegistro.get('celular').touched)">{{ erro.mensagem }}</span>
+        </ng-container>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input formControlName="email" type="email" placeholder="Digite seu email"></ion-input>
+        <ng-container *ngFor="let erro of mensagens_validacao.email">
+          <span class="msg-erro" *ngIf="formRegistro.get('email').hasError(erro.tipo) && (formRegistro.get('email').dirty || formRegistro.get('email').touched)">{{ erro.mensagem }}</span>
+        </ng-container>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label position="stacked">Senha</ion-label>
+        <ion-input formControlName="senha" type="password" placeholder="Digite sua senha"></ion-input>
+        <ng-container *ngFor="let erro of mensagens_validacao.senha">
+          <span class="msg-erro" *ngIf="formRegistro.get('senha').hasError(erro.tipo) && (formRegistro.get('senha').dirty || formRegistro.get('senha').touched)">{{ erro.mensagem }}</span>
+        </ng-container>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label position="stacked">Confirmar</ion-label>
+        <ion-input formControlName="confirmarsenha" type="password" placeholder="Confirme sua senha"></ion-input>
+        <ng-container *ngFor="let erro of mensagens_validacao.confirmarsenha">
+          <span class="msg-erro" *ngIf="formRegistro.get('confirmarsenha').hasError(erro.tipo) && (formRegistro.get('confirmarsenha').dirty || formRegistro.get('confirmarsenha').touched)">{{ erro.mensagem }}</span>
+        </ng-container>
+      </ion-item>
+    </form>
+  
   <ion-item button class="ion-button-light ion-text-center">
     <ion-label>Salvar</ion-label>
   </ion-item>
