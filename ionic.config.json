@@ -1,5 +1,7 @@
 {
   "name": "cadastro-usuarios",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

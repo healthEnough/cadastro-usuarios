@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
+import { UsuariosService } from '../services/usuarios.service';
+import { AlertController } from '@ionic/angular';
+import { Usuario } from '../models/usuario';
 
 @Component({
   selector: 'app-registro',
@@ -90,11 +93,13 @@ export class RegistroPage implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private us: UsuariosService,
+    public ac: AlertController
   ) 
   { 
     this.formRegistro=fb.group({
-      nome: ['', Validators.compose([Validators.required, Validators.minLength(13)])],
+      nome: ['', Validators.compose([Validators.required, Validators.minLength(3)])],
       cpf: ['', Validators.compose([Validators.required, Validators.minLength(11), Validators.maxLength(14)])],
       datadenascimento: ['', Validators.compose([Validators.required])],
       sexo: ['', Validators.compose([Validators.required])],
@@ -105,7 +110,41 @@ export class RegistroPage implements OnInit {
     })
   }
 
-  ngOnInit() {
+
+  async ngOnInit() {
+    await this.us.buscarTodos()
+    console.log(this.us.listadeusuarios)
+  }
+
+  public async salvarForm(){
+    if(this.formRegistro.valid){
+      let usuario=new Usuario()
+        usuario.nome=this.formRegistro.value.nome
+        usuario.cpf=this.formRegistro.value.cpf
+        usuario.dataDeNascimento=new Date(this.formRegistro.value.dataDeNascimento)
+        usuario.genero=this.formRegistro.value.genero
+        usuario.celular=this.formRegistro.value.celular
+        usuario.email=this.formRegistro.value.email
+        usuario.senha=this.formRegistro.value.senha
+        if(await this.us.salvar(usuario)){
+          this.presentAlert('Sucesso','Usuário salvo com sucesso')
+          this.router.navigateByUrl('/login')
+        }else{
+          this.presentAlert('Erro','Erro ao salvar o usuário')
+        }
+      
+    }else{
+      this.presentAlert('Advertência','Formulário inválido<b4>Verifique os campos do seu formulário')
+    }
+  }
+
+  async presentAlert(title:string,message:string){
+    const alert=await this.ac.create({
+      header: title,
+      message: message,
+      buttons: ['OK']
+    }) 
+    await alert.present()
   }
 
   public login() {
